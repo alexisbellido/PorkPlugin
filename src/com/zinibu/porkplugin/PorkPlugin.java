@@ -64,6 +64,7 @@ public class PorkPlugin extends JavaPlugin {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static void buildMyHouse(int width, int height) {
 
         if (width < 5) {
@@ -100,8 +101,9 @@ public class PorkPlugin extends JavaPlugin {
         Block over = origin.getWorld().getBlockAt(door);
 
         // Magic values to establish top and bottom of door
-        top.setData((byte)0x8);
-        bottom.setData((byte)0x4);
+        //top.setData((byte)0x8);
+        //bottom.setData((byte)0x4);
+
         // And normal material constants
         top.setType(Material.WOODEN_DOOR);
         bottom.setType(Material.WOODEN_DOOR);
