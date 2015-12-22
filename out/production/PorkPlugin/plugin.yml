@@ -1,0 +1,9 @@
+name: PorkPlugin
+version: 1.1
+author: Alexis Bellido
+main: com.zinibu.porkplugin.PorkPlugin
+
+commands:
+  hello:
+    description: Say hello to everyone!
+    usage: /hello

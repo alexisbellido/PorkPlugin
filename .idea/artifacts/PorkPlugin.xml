@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PorkPlugin">
+    <output-path>$PROJECT_DIR$/out/artifacts/PorkPlugin</output-path>
+    <root id="archive" name="PorkPlugin.jar">
+      <element id="module-output" name="PorkPlugin" />
+    </root>
+  </artifact>
+</component>
