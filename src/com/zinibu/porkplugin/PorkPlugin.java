@@ -40,11 +40,42 @@ public class PorkPlugin extends JavaPlugin {
             return true;
         }
 
+        if (label.equalsIgnoreCase("buildablock")) {
+            if (sender instanceof Player) {
+                Player me = (Player) sender;
+                origin = me.getLocation();
+                World world = origin.getWorld();
+                Block block;
+
+                Material material;
+                if (args.length > 0 && args[0] != null) {
+                    material = Material.getMaterial(args[0]);
+                } else {
+                    material = Material.WOOD;
+                }
+
+                int quantity = 1;
+                if (args.length > 1 && args[1] != null) {
+                    quantity = Integer.parseInt(args[1]);
+                }
+
+                for (int i = 0; i < quantity; i++) {
+                    block = world.getBlockAt(origin);
+                    block.setType(material);
+                    origin.setX(origin.getX() + 1);
+                }
+
+                return true;
+            }
+        }
+
         if (label.equalsIgnoreCase("buildahouse")) {
             if (sender instanceof Player) {
                 Player me = (Player) sender;
                 origin = me.getLocation();
                 firstHouse = true;
+                int width = 6;
+                int height = 8;
 
                 Material whatOut;
                 Material whatIn;
@@ -57,7 +88,15 @@ public class PorkPlugin extends JavaPlugin {
 
                 whatIn = Material.AIR;
 
-                PorkHouse.build_me(whatOut, whatIn);
+                if (args.length > 1 && args[1] != null) {
+                    width = Integer.parseInt(args[1]);
+                }
+
+                if (args.length > 2 && args[2] != null) {
+                    height = Integer.parseInt(args[2]);
+                }
+
+                PorkHouse.build_me(width, height, whatOut, whatIn);
                 return true;
             }
         }
@@ -84,6 +123,7 @@ public class PorkPlugin extends JavaPlugin {
                 for (int i = 0; i < quantity; i++) {
                     world.spawnEntity(origin, creature);
                 }
+                return true;
             }
         }
 

@@ -8,6 +8,10 @@ commands:
     description: Say hello to everyone!
     usage: /hello
 
+  buildablock:
+    description: Build a block
+    usage: /buildablock
+
   buildahouse:
     description: Build a house
     usage: /buildahouse
