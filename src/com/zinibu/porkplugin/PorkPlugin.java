@@ -2,12 +2,16 @@ package com.zinibu.porkplugin;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class PorkPlugin extends JavaPlugin {
@@ -31,7 +35,8 @@ public class PorkPlugin extends JavaPlugin {
 
         if (label.equalsIgnoreCase("hello")) {
             String msg = "Hello, I am a message from PorkPlugin";
-            getServer().broadcastMessage(msg);
+            log.info(Arrays.toString(args));
+            //getServer().broadcastMessage(msg);
             return true;
         }
 
@@ -40,10 +45,48 @@ public class PorkPlugin extends JavaPlugin {
                 Player me = (Player) sender;
                 origin = me.getLocation();
                 firstHouse = true;
-                PorkHouse.build_me();
+
+                Material whatOut;
+                Material whatIn;
+
+                if (args.length > 0 && args[0] != null) {
+                    whatOut = Material.getMaterial(args[0]);
+                } else {
+                    whatOut = Material.WOOD;
+                }
+
+                whatIn = Material.AIR;
+
+                PorkHouse.build_me(whatOut, whatIn);
                 return true;
             }
         }
+
+        if (label.equalsIgnoreCase("spawnacreature")) {
+            // TODO extra checks for correct parameter types
+            if (sender instanceof Player) {
+                Player me = (Player) sender;
+                origin = me.getLocation();
+                World world = origin.getWorld();
+
+                EntityType creature;
+                if (args.length > 0 && args[0] != null) {
+                    creature = EntityType.valueOf(args[0]);
+                } else {
+                    creature = EntityType.HORSE;
+                }
+
+                int quantity = 1;
+                if (args.length > 1 && args[1] != null) {
+                    quantity = Integer.parseInt(args[1]);
+                }
+
+                for (int i = 0; i < quantity; i++) {
+                    world.spawnEntity(origin, creature);
+                }
+            }
+        }
+
         return false;
     }
 
@@ -64,8 +107,7 @@ public class PorkPlugin extends JavaPlugin {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public static void buildMyHouse(int width, int height) {
+    public static void buildMyHouse(int width, int height, Material whatOut, Material whatIn) {
 
         if (width < 5) {
             width = 5;
@@ -84,9 +126,9 @@ public class PorkPlugin extends JavaPlugin {
         }
 
         // Set the whole area to wood
-        makeCube(0,0,0,width, height, Material.WOOD);
+        makeCube(0,0,0,width, height, whatOut);
         // Set the inside of the cube to air
-        makeCube(1,1,1,width-2, height-2, Material.AIR);
+        makeCube(1,1,1,width-2, height-2, whatIn);
 
         // Pop a door in one wall
         Location door = new Location(origin.getWorld(), origin.getX() + (width/2), origin.getY(), origin.getZ());

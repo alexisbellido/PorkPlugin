@@ -11,3 +11,7 @@ commands:
   buildahouse:
     description: Build a house
     usage: /buildahouse
+
+  spawnacreature:
+    description: Spawn a creature
+    usage: /spawnacreatute
